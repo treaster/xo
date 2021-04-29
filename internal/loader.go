@@ -169,7 +169,7 @@ func (tl TypeLoader) ParseQuery(args *ArgType) error {
 				Name: snaker.SnakeToCamelIdentifier(c.ColumnName),
 				Col:  c,
 			}
-			f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, args.QueryAllowNulls && !c.NotNull)
+			f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, args.QueryAllowNulls && !c.NotNull && !c.IsPrimaryKey)
 			typeTpl.Fields = append(typeTpl.Fields, f)
 		}
 	} else {
@@ -533,7 +533,7 @@ func (tl TypeLoader) LoadColumns(args *ArgType, typeTpl *Type) error {
 			Name: snaker.SnakeToCamelIdentifier(c.ColumnName),
 			Col:  c,
 		}
-		f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, !c.NotNull)
+		f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, !c.NotNull && !c.IsPrimaryKey)
 
 		// set primary key
 		if c.IsPrimaryKey {
