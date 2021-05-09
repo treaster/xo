@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -627,7 +626,7 @@ func (tl TypeLoader) LoadTableForeignKeys(args *ArgType, tableMap map[string]*Ty
 
 		// check everything was found
 		if col == nil || refTpl == nil || refCol == nil {
-			return errors.New("could not find col, refTpl, or refCol")
+			return fmt.Errorf("could not find col, refTpl, or refCol for %s.%s -> %s(%s)", typeTpl.Table.TableName, fk.ColumnName, fk.RefTableName, fk.RefColumnName)
 		}
 
 		// foreign key name
